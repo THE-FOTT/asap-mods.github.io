@@ -1,0 +1,67 @@
+let audio = document.getElementById("audio");    // Берём элемент audio
+let time = document.querySelector(".time");      // Берём аудио дорожку
+let btnPlay = document.querySelector(".play");   // Берём кнопку проигрывания
+let btnPause = document.querySelector(".pause"); // Берём кнопку паузы
+let btnPrev = document.querySelector(".prev");   // Берём кнопку переключения предыдущего трека
+let btnNext = document.querySelector(".next");   // Берём кнопку переключение следующего трека
+
+// Массив с названиями песен
+let playlist = [
+    '1.mp3',
+    '2.mp3',
+];
+ 
+let treck;
+ 
+window.onload = function() {
+    treck = 0; 
+}
+
+function switchTreck (numTreck) {
+    audio.src = '/audio/' + playlist[numTreck];
+    audio.currentTime = 0;
+    audio.play();
+}
+
+btnPlay.addEventListener("click", function() {
+    audio.play();
+    audioPlay = setInterval(function() {
+        let audioTime = Math.round(audio.currentTime);
+        let audioLength = Math.round(audio.duration)
+        time.style.width = (audioTime * 100) / audioLength + '%';
+        if (audioTime == audioLength && treck < 3) {
+            treck++;
+            switchTreck(treck);
+        } else if (audioTime == audioLength && treck >= 3) {
+            treck = 0;
+            switchTreck(treck); Меняем трек
+        }
+    }, 10)
+});
+
+btnPause.addEventListener("click", function() {
+    audio.pause();
+    clearInterval(audioPlay)
+});
+
+
+btnPrev.addEventListener("click", function() {
+    if (treck > 0) {
+        treck--; 
+        switchTreck(treck);
+    } else { 
+        treck = 3;
+        switchTreck(treck);
+    }
+});
+
+
+btnNext.addEventListener("click", function() {
+    if (treck < 3) { 
+        treck++;
+        switchTreck(treck); 
+    } else { 
+        treck = 0;
+        switchTreck(treck); 
+    }
+});
