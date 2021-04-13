@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/fonts/style.css">
+        <link rel="stylesheet" href="/css/style.css">
+        <script src="https://kit.fontawesome.com/3aa3202a15.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <title>Asap Mods</title>
+        <script>
+            $(document).ready(function(){
+                $("button").click(function(){
+                    var to_compile = {
+                        "LanguageChoice": "9",
+                        "Program": $("#code").val(),
+                        "Input": "",
+                        "CompilerArgs" : ""
+                    };
+                    $.ajax ({
+                        url: "https://rextester.com/rundotnet/api",
+                        type: "POST",
+                        data: to_compile
+                    }).done(function(data) {
+                        alert('Результат: '+data.Result+'\nОшибки: '+data.Errors+'\nВарнинги: '+data.Warnings); 
+                    }).fail(function(data, err) {
+                        alert("Ошибка епта\n " + JSON.stringify(data) + " " + JSON.stringify(err));
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <nav>
+            <div class="nav">
+                <h1 class="logo">Asap Mods</h1>
+                <ul class="pages">
+                    <li><a href="/">Главная</a></li>
+                    <li><a href="/news">Новости</a></li>
+                    <li><a href="/compile">Компилятор</a></li>
+                    <li><a href="/dev">Разработчик</a></li>
+                </ul>
+                <div class="contacts-block">
+                    <a class="contact" href="https://vk.com/asapmods" title="Перейти в группу VK"><i class="fab fa-vk"></i></a>
+                    <a class="contact" href="https://t.me/Fottes" title="Перейти в Telegram канал"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+        </nav>
+        <textarea id="code" style='margin-left: auto; margin-right: auto; color:#FFC618; background: url("/img/nonefon.png"); width: calc(100% - 7px); height: 130px;'>
+//fpc 3.0.4
+
+program HelloWorld;
+
+begin
+    writeln('Hello, world!');
+end.
+        </textarea>
+        <button id="run" style='width: calc(100% - 7px); color:#000000;'>Run</button>
+        <div class="contacts-block contacts-block-footer">
+            <a class="contact" href="https://vk.com/asapmods" title="Перейти в группу VK"><i class="fab fa-vk"></i></a>
+            <a class="contact" href="https://t.me/Fottes" title="Перейти в Telegram канал"><i class="fab fa-telegram"></i></a>
+        </div>
+    </body>
+</html>
